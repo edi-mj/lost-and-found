@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ReportController extends Controller
 {
@@ -49,5 +50,97 @@ class ReportController extends Controller
             'data_input' => $request->all(),
             'file_path' => $path ?? null
         ]);
+    }
+
+    /**
+     * Tampilkan Semua Data Barang Hilang
+     */
+    public function indexLost(Request $request)
+    {
+        // Simulasi data dari API (Array of objects)
+        // Nanti diganti: Http::get('.../api/reports?type=lost')->json();
+        $dummyItems = [
+            [
+                'id' => 1,
+                'title' => 'Dompet Kulit Coklat',
+                'description' => 'Dompet merk Fossil, ada SIM C a.n. Budi. Jatuh sekitar kantin.',
+                'location' => 'Kantin Fakultas Teknik',
+                'date' => '2023-10-25',
+                'image' => 'https://images.unsplash.com/photo-1627123424574-181ce5171c98?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            [
+                'id' => 2,
+                'title' => 'iPhone 13 Pro Graphite',
+                'description' => 'Casing bening, retak dikit di tempered glass pojok kiri.',
+                'location' => 'Perpustakaan Lt. 2',
+                'date' => '2023-10-24',
+                'image' => 'https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            [
+                'id' => 3,
+                'title' => 'Kunci Motor Honda Vario',
+                'description' => 'Gantungan kunci boneka spongebob. Hilang pas parkir.',
+                'location' => 'Parkiran Belakang',
+                'date' => '2023-10-26',
+                'image' => 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=300&h=200', // Gambar ilustrasi kunci
+            ],
+            [
+                'id' => 4,
+                'title' => 'Tumbler Corkcicle Hitam',
+                'description' => 'Ketinggalan di meja dosen pas bimbingan.',
+                'location' => 'Ruang Dosen 101',
+                'date' => '2023-10-26',
+                'image' => 'https://images.unsplash.com/photo-1602143407151-011141920038?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            [
+                'id' => 4,
+                'title' => 'Tumbler Corkcicle Hitam',
+                'description' => 'Ketinggalan di meja dosen pas bimbingan.',
+                'location' => 'Ruang Dosen 101',
+                'date' => '2023-10-26',
+                'image' => 'https://images.unsplash.com/photo-1602143407151-011141920038?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            [
+                'id' => 4,
+                'title' => 'Tumbler Corkcicle Hitam',
+                'description' => 'Ketinggalan di meja dosen pas bimbingan.',
+                'location' => 'Ruang Dosen 101',
+                'date' => '2023-10-26',
+                'image' => 'https://images.unsplash.com/photo-1602143407151-011141920038?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            [
+                'id' => 4,
+                'title' => 'Tumbler Corkcicle Hitam',
+                'description' => 'Ketinggalan di meja dosen pas bimbingan.',
+                'location' => 'Ruang Dosen 101',
+                'date' => '2023-10-26',
+                'image' => 'https://images.unsplash.com/photo-1602143407151-011141920038?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            // ... bayangin ada banyak data lainnya ...
+        ];
+
+
+        // A. Bungkus Array jadi Collection
+        $collection = collect($dummyItems);
+
+        // B. Konfigurasi
+        $perPage = 4; // Coba ganti jadi 4 biar cepet kelihatan halamannya
+        $currentPage = $request->input('page', 1);
+
+        // C. Potong Data (Slice)
+        // Ambil data sesuai halaman yang diminta
+        $currentPageItems = $collection->forPage($currentPage, $perPage)->values();
+
+        // D. Bikin Object Paginator
+        // Variabelnya kita namain $lostItems biar di View gak perlu ubah variabel
+        $lostItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => url()->current()]
+        );
+
+        return view('reports.index_lost', compact('lostItems'));
     }
 }

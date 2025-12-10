@@ -47,7 +47,7 @@
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:px-6">
                 <div class="text-sm">
-                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Lihat semua data <span aria-hidden="true">&rarr;</span></a>
+                    <a href="{{ route('reports.lost.index') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Lihat semua data <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </div>
         </div>

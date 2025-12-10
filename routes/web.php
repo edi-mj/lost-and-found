@@ -21,3 +21,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/report/lost', [ReportController::class, 'createLost'])->name('report.lost');
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
 Route::get('/report/found', [ReportController::class, 'createFound'])->name('report.found');
+Route::get('/reports/lost-list', [ReportController::class, 'indexLost'])->name('reports.lost.index');

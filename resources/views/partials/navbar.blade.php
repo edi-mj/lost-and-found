@@ -14,7 +14,7 @@
                 
                 {{-- Desktop Menu --}}
                 <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a href="#" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                    <a href="{{ route('dashboard') }}" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                         Dashboard
                     </a>
                     <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
@@ -38,13 +38,6 @@
                 </button>
 
                 {{-- User Dropdown --}}
-                {{-- <div class="ml-3 relative flex items-center">
-                    <span class="mr-2 text-sm font-medium text-gray-700">Halo, {{ session('user.name')}}</span>
-                    <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
-                      {{ strtoupper(substr(session('user.name'), 0, 1)) }}
-                    </div>
-                </div> --}}
-
                 <div class="ml-3 relative flex items-center space-x-3">
                     <div class="flex items-center">
                         <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold mr-2">
