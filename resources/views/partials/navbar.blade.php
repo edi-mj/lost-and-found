@@ -38,11 +38,35 @@
                 </button>
 
                 {{-- User Dropdown --}}
-                <div class="ml-3 relative flex items-center">
+                {{-- <div class="ml-3 relative flex items-center">
                     <span class="mr-2 text-sm font-medium text-gray-700">Halo, {{ session('user.name')}}</span>
                     <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
                       {{ strtoupper(substr(session('user.name'), 0, 1)) }}
                     </div>
+                </div> --}}
+
+                <div class="ml-3 relative flex items-center space-x-3">
+                    <div class="flex items-center">
+                        <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold mr-2">
+                            {{ strtoupper(substr(session('user.name'), 0, 1)) }}
+                          </div>
+                          <span class="text-sm font-medium text-gray-700">Halo, {{ session('user.name')}}</span>
+                    </div>
+
+                    {{-- Separator Vertical --}}
+                    <div class="h-6 w-px bg-gray-300"></div>
+
+                    {{-- TOMBOL LOGOUT (FORM) --}}
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800 transition duration-150 ease-in-out flex items-center">
+                            {{-- Ikon Logout --}}
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Keluar
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
