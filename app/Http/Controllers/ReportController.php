@@ -15,6 +15,14 @@ class ReportController extends Controller
     }
 
     /**
+     * Tampilkan Form Lapor Ditemukan
+     */
+    public function createFound()
+    {
+        return view('reports.create_found');
+    }
+
+    /**
      * Handle Submit Laporan
      */
     public function store(Request $request)
