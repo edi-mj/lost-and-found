@@ -22,3 +22,5 @@ Route::get('/report/lost', [ReportController::class, 'createLost'])->name('repor
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
 Route::get('/report/found', [ReportController::class, 'createFound'])->name('report.found');
 Route::get('/reports/lost-list', [ReportController::class, 'indexLost'])->name('reports.lost.index');
+
+Route::get('/found-items', [App\Http\Controllers\ReportController::class, 'indexFound'])->name('report.found-list');

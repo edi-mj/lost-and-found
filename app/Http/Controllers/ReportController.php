@@ -143,4 +143,55 @@ class ReportController extends Controller
 
         return view('reports.index_lost', compact('lostItems'));
     }
+
+    /**
+     * Tampilkan Semua Data Barang DITEMUKAN
+     */
+    public function indexFound(Request $request)
+    {
+        // 1. Data Dummy (Ceritanya ini barang yang DITEMUKAN orang)
+        $dummyItems = [
+            [
+                'id' => 101,
+                'title' => 'KTP a.n. Siti Aminah',
+                'description' => 'Ditemukan di dekat mesin fotokopi, domisili Jakarta Selatan.',
+                'location' => 'Lobby Utama',
+                'date' => '2023-10-27',
+                'image' => 'https://images.unsplash.com/photo-1548126032-079a0fb0099f?auto=format&fit=crop&q=80&w=300&h=200', // Gambar ilustrasi ID Card
+            ],
+            [
+                'id' => 102,
+                'title' => 'Botol Minum Tupperware Ungu',
+                'description' => 'Ada stiker nama "Rina" di tutupnya.',
+                'location' => 'Kantin Sehat',
+                'date' => '2023-10-26',
+                'image' => 'https://images.unsplash.com/photo-1602143407151-011141920038?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            [
+                'id' => 103,
+                'title' => 'Jaket Hoodie Hitam',
+                'description' => 'Merk Uniqlo, size L, ketinggalan di kursi panjang.',
+                'location' => 'Taman Kampus',
+                'date' => '2023-10-25',
+                'image' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&q=80&w=300&h=200',
+            ],
+            // ... Tambahin data dummy lain biar banyak ...
+        ];
+
+        // 2. Logika Pagination Manual (Sama persis kayak indexLost)
+        $collection = collect($dummyItems);
+        $perPage = 8; // Kita coba tampilin 8 per halaman
+        $currentPage = $request->input('page', 1);
+        $currentPageItems = $collection->forPage($currentPage, $perPage)->values();
+
+        $foundItems = new LengthAwarePaginator(
+            $currentPageItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => url()->current()]
+        );
+
+        return view('reports.index_found', compact('foundItems'));
+    }
 }

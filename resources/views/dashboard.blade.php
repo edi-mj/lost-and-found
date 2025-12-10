@@ -60,7 +60,7 @@
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:px-6">
                 <div class="text-sm">
-                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Cek kecocokan <span aria-hidden="true">&rarr;</span></a>
+                    <a href="{{ route('report.found-list') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Cek kecocokan <span aria-hidden="true">&rarr;</span></a>
                 </div>
             </div>
         </div>
@@ -119,8 +119,3 @@
     </div>
 </div>
 @endsection
-
-    {{-- <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">Logout</button>
-    </form> --}}
