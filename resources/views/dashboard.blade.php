@@ -78,12 +78,12 @@
     </div>
 
     {{-- Search Bar (Fitur API Search) --}}
-    <div class="mb-8 relative">
+    {{-- <div class="mb-8 relative">
         <input type="text" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md py-3 px-4" placeholder="Cari barang hilang (contoh: Kunci motor, Dompet, Laptop)...">
         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         </div>
-    </div>
+    </div> --}}
 
     {{-- Recent Reports List --}}
     <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Laporan Terbaru</h3>
