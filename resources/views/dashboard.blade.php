@@ -117,5 +117,8 @@
         @endforeach
 
     </div>
+    <div class="fixed bottom-0 right-0 z-[9999] bg-red-600 text-white p-2.5 font-bold rounded-tl-md shadow-lg">
+        Server Port: {{ $_SERVER['SERVER_PORT'] ?? 'Unknown' }}
+    </div>
 </div>
 @endsection
