@@ -74,21 +74,37 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'contact_info' => 'required|string|max:50',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required',
+            'email' => 'required',
+            'contact_info' => 'required',
+            'password' => 'required',
         ]);
 
         try {
-            $response = Http::post($this->apiBaseUrl . '/auth/login', [
+            $response = Http::post($this->apiBaseUrl . '/auth/register', [
                 'name' => $request->name,
                 'email' => $request->email,
                 'contact_info' => $request->contact_info,
                 'password' => $request->password,
             ]);
+
             if ($response->successful()) {
                 return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+            }
+
+            if ($response->status() == 422) {
+                $errors = $response->json()['errors'];
+                $errorMessages = [];
+                foreach ($errors as $err) {
+                    $field = $err['path'] ?? 'error';
+                    $message = $err['msg'] ?? 'Invalid data';
+
+                    $errorMessages[$field][] = $message;
+                }
+                return back()->withErrors($errorMessages)->withInput();
+            } elseif ($response->status() == 400) {
+                $message = $response->json()['message'] ?? 'Invalid data';
+                return back()->withErrors(['email' => $message])->withInput();
             }
             return back()->with('error', 'Gagal registrasi. Silakan coba lagi.')->withInput();
         } catch (\Exception $e) {
