@@ -27,4 +27,8 @@ Route::get('/reports/lost-list', [ReportController::class, 'indexLost'])->name('
 
 Route::get('/found-items', [App\Http\Controllers\ReportController::class, 'indexFound'])->name('report.found-list');
 
-Route::get('/search', [SearchController::class, 'index'])->name('search.index'); 
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+
+Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/recent', [App\Http\Controllers\NotificationController::class, 'getRecent'])->name('notifications.recent');
+Route::patch('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
