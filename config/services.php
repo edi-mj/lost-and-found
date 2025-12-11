@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'backend_api' => [
+        'user_management' => env('API_USERS_MANAGEMENT'),
+        'search_management' => env('API_SEARCH_MANAGEMENT'),
+    ],
+
 ];
