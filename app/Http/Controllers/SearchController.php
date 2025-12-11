@@ -20,7 +20,7 @@ class SearchController extends Controller
         if ($keyword) {
             try {
                 // Panggil API FastAPI di Python
-                $response = Http::get('http://127.0.0.1:8001/api/search', [
+                $response = Http::get(config('services.backend_api.search_management'), [
                     'keyword' => $keyword,
                     'type'    => $type,
                     'status'  => $status,
