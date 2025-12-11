@@ -7,12 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
-    protected $apiBaseUrl;
-
-    public function __construct()
-    {
-        $this->apiBaseUrl = config('services.backend_api.user_management');
-    }
+    private $apiUrl = 'http://localhost:8080/api/v1';
 
     public function showLoginForm()
     {
@@ -25,31 +20,39 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email'    => 'required|email',
+            'password' => 'required',
         ]);
-
-        try {
-            $response = Http::post($this->apiBaseUrl . '/auth/login', [
-                'email' => $request->email,
-                'password' => $request->password,
-            ]);
-
-            if ($response->successful()) {
-                $data = $response->json()['data'];
-
-                session([
-                    'api_token' => $data['token'],
-                    'user' => $data['user'],
-                ]);
-
-                return redirect()->route('dashboard');
-            }
-            return back()->with('error', 'Username atau Password salah!')->withInput();
-        } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan pada server API atau tidak terjangkau.')->withInput();
+    
+        $response = Http::post("{$this->apiUrl}/auth/login", [
+            'email'    => $request->email,
+            'password' => $request->password,
+        ]);
+    
+        if ($response->failed()) {
+            return back()->with('error', 'Email atau password salah!')->withInput();
         }
+    
+        $data  = $response->json()['data'];
+        $token = $data['token'];
+        $user  = $data['user'];
+    
+        // Simpan session
+        session([
+            'api_token' => $token,
+            'user'      => $user
+        ]);
+    
+        // Cek role admin
+        if ($user['role'] === 'admin') {
+            return redirect()->route('dashboard-admin')
+                ->with('success', 'Selamat datang Admin!');
+        }        
+    
+        // Jika bukan admin → ke dashboard biasa
+        return redirect('/dashboard')->with('success', 'Login berhasil!');
     }
+    
 
     public function dashboard()
     {
@@ -60,55 +63,63 @@ class AuthController extends Controller
         return view('dashboard');
     }
 
-    /**
-     * Tampilkan form register
-     */
     public function showRegisterForm()
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle submit register
-     */
     public function register(Request $request)
     {
+        // Sesuaikan dengan validasi Express.js
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'contact_info' => 'required',
-            'password' => 'required',
+            'name'         => 'required',
+            'email'        => 'required|email',
+            'password'     => 'required|min:6',
+            'contact_info' => 'nullable|numeric',
         ]);
 
         try {
-            $response = Http::post($this->apiBaseUrl . '/auth/register', [
-                'name' => $request->name,
-                'email' => $request->email,
+            $response = Http::post("{$this->apiUrl}/auth/register", [
+                'name'         => $request->name,
+                'email'        => $request->email,
+                'password'     => $request->password,
                 'contact_info' => $request->contact_info,
-                'password' => $request->password,
             ]);
 
+            // ✅ Berhasil
             if ($response->successful()) {
-                return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+                return redirect()->route('login')
+                    ->with('success', 'Registrasi berhasil! Silakan login.');
             }
 
+            // ✅ Error validasi dari Express (422)
             if ($response->status() == 422) {
                 $errors = $response->json()['errors'];
                 $errorMessages = [];
+
                 foreach ($errors as $err) {
                     $field = $err['path'] ?? 'error';
                     $message = $err['msg'] ?? 'Invalid data';
-
                     $errorMessages[$field][] = $message;
                 }
+
                 return back()->withErrors($errorMessages)->withInput();
-            } elseif ($response->status() == 400) {
-                $message = $response->json()['message'] ?? 'Invalid data';
-                return back()->withErrors(['email' => $message])->withInput();
             }
-            return back()->with('error', 'Gagal registrasi. Silakan coba lagi.')->withInput();
+
+            // ✅ Email sudah terdaftar (400)
+            if ($response->status() == 400) {
+                return back()->withErrors([
+                    'email' => $response->json()['message'] ?? 'Email sudah digunakan'
+                ])->withInput();
+            }
+
+            // ✅ Error lain
+            return back()->with('error', 'Gagal registrasi. Silakan coba lagi.')
+                         ->withInput();
+
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan pada server API atau tidak terjangkau.')->withInput();
+            return back()->with('error', 'API tidak dapat dijangkau.')
+                         ->withInput();
         }
     }
 
