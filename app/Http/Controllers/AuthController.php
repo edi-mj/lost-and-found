@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
-    private $apiUrl = 'http://localhost:8080/api/v1';
+    protected $apiUrl;
+
+    public function __construct()
+    {
+        $this->apiUrl = config('services.backend_api.user_management');
+    }
 
     public function showLoginForm()
     {
@@ -23,36 +28,37 @@ class AuthController extends Controller
             'email'    => 'required|email',
             'password' => 'required',
         ]);
-    
+
         $response = Http::post("{$this->apiUrl}/auth/login", [
             'email'    => $request->email,
             'password' => $request->password,
         ]);
-    
+
         if ($response->failed()) {
             return back()->with('error', 'Email atau password salah!')->withInput();
         }
-    
+
         $data  = $response->json()['data'];
         $token = $data['token'];
         $user  = $data['user'];
-    
+
         // Simpan session
         session([
             'api_token' => $token,
             'user'      => $user
         ]);
-    
+
+
         // Cek role admin
         if ($user['role'] === 'admin') {
             return redirect()->route('dashboard-admin')
                 ->with('success', 'Selamat datang Admin!');
-        }        
-    
+        }
+
         // Jika bukan admin → ke dashboard biasa
         return redirect('/dashboard')->with('success', 'Login berhasil!');
     }
-    
+
 
     public function dashboard()
     {
@@ -115,11 +121,10 @@ class AuthController extends Controller
 
             // ✅ Error lain
             return back()->with('error', 'Gagal registrasi. Silakan coba lagi.')
-                         ->withInput();
-
+                ->withInput();
         } catch (\Exception $e) {
             return back()->with('error', 'API tidak dapat dijangkau.')
-                         ->withInput();
+                ->withInput();
         }
     }
 

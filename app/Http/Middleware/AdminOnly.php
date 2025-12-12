@@ -15,13 +15,13 @@ class AdminOnly
      */
     public function handle($request, Closure $next)
     {
+        // dd(session('user'));
         $user = session('user');
-    
-        if (!$user || $user['role'] !== 'admin') {
+
+        if (!$user || ($user['role'] ?? null) !== 'admin') {
             return redirect('/dashboard')->with('error', 'Akses admin ditolak.');
         }
-    
+
         return $next($request);
     }
-    
 }

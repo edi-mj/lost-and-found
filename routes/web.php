@@ -22,9 +22,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
-    ->middleware('admin')
-    ->name('dashboard-admin');
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard-admin');
 
 Route::get('/report/lost', [ReportController::class, 'createLost'])->name('report.lost');
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');

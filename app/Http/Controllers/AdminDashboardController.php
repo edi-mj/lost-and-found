@@ -10,7 +10,7 @@ class AdminDashboardController extends Controller
 
     public function __construct()
     {
-        $this->apiUrl = config('services.verification_api.base_url');
+        $this->apiUrl = config('services.backend_api.verification_management');
     }
 
     public function index()
@@ -21,7 +21,11 @@ class AdminDashboardController extends Controller
             return redirect()->route('login')->with('error', 'Silakan login sebagai admin.');
         }
 
+        // dd($token);
+
         $response = Http::withToken($token)->get($this->apiUrl);
+
+
 
         if (!$response->successful()) {
             return back()->with('error', 'Gagal mengambil data verifikasi dari API.');
@@ -37,8 +41,8 @@ class AdminDashboardController extends Controller
         return view('admin.dashboard', [
             'verifications'        => $verifications,
             'pendingVerifications' => $pendingVerifications,
-            'approvedVerifications'=> $approvedVerifications,
-            'rejectedVerifications'=> $rejectedVerifications,
+            'approvedVerifications' => $approvedVerifications,
+            'rejectedVerifications' => $rejectedVerifications,
         ]);
     }
 }

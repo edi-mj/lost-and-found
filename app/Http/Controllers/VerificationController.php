@@ -11,7 +11,7 @@ class VerificationController extends Controller
 
     public function __construct()
     {
-        $this->apiUrl = config('services.verification_api.base_url');
+        $this->apiUrl = config('services.backend_api.verification_management');
     }
 
     public function update(Request $request, $id)
@@ -38,7 +38,6 @@ class VerificationController extends Controller
             }
 
             return back()->with('success', 'Status verifikasi berhasil diupdate.');
-
         } catch (\Exception $e) {
             // Sementara tampilkan pesan supaya kelihatan
             // dd($e->getMessage());
