@@ -7,47 +7,69 @@ use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Kalau belum login via API, redirect ke login
-        if (!session('api_token')) {
-            return redirect()->route('login');
+        // Ambil token JWT dari session Laravel (setelah login)
+        $token = $request->session()->get('api_token');
+        if (!$token) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // =============================================
-        // GANTI BAGIAN INI: Kirim stats & recentReports ke view
-        // =============================================
-        $stats = [
-            'total_lost'  => 12,   // nanti bisa diganti fetch dari API
-            'total_found' => 8,
-            'resolved'    => 5,
-        ];
+        // Base URL backend
+        $baseUrl = config('services.backend_api.reports'); // mengambil dari services.php
 
-        $recentReports = [
-            [
-                'title'    => 'Dompet Kulit Coklat',
-                'location' => 'Kantin Fakultas Teknik',
-                'date'     => '2 Jam yang lalu',
-                'image'    => 'https://images.unsplash.com/photo-1627123424574-181ce5171c98?auto=format&fit=crop&q=80&w=300&h=200',
-                'type'     => 'lost',
-            ],
-            [
-                'title'    => 'Kunci Motor Honda',
-                'location' => 'Parkiran Belakang',
-                'date'     => '5 Jam yang lalu',
-                'image'    => 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=300&h=200',
-                'type'     => 'found',
-            ],
-            [
-                'title'    => 'iPhone 13 Pro',
-                'location' => 'Perpustakaan Lt. 2',
-                'date'     => '1 Hari yang lalu',
-                'image'    => 'https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&q=80&w=300&h=200',
-                'type'     => 'lost',
-            ],
-            // tambah lagi kalau mau sampai 6 card
-        ];
+        try {
+            // Ambil data barang hilang
+            $lostResponse = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->get("{$baseUrl}/reports/type/lost");
 
-        return view('dashboard', compact('stats', 'recentReports'));
-        //               JANGAN LUPA TAMBAH INI! (sebelumnya cuma 'user')
-    }}
+            // Ambil data barang ditemukan
+            $foundResponse = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->get("{$baseUrl}/reports/type/found");
+
+            $lostReports = $lostResponse->successful() ? $lostResponse->json() : [];
+            $foundReports = $foundResponse->successful() ? $foundResponse->json() : [];
+
+            // Hitung statistik
+            $stats = [
+                'total_lost' => count($lostReports),
+                'total_found' => count($foundReports),
+                'resolved' => count(array_filter(array_merge($lostReports, $foundReports), fn($r) => in_array($r['status'], ['claimed', 'closed']))),
+            ];
+
+            // Gabungkan laporan lost & found
+            $allReports = array_merge($lostReports, $foundReports);
+
+            // Map data untuk Blade
+            $recentReports = array_map(function ($r,) use ($baseUrl) {
+                return [
+                    'id' => $r['id'],
+                    'type' => $r['type'],
+                    'name' => $r['name'] ?? 'Nama Barang Tidak Diketahui', // tambahkan ini
+                    'title' => substr($r['description'], 0, 30), // preview title
+                    'description' => $r['description'],
+                    'location' => $r['location'] ?? '-',
+                    'date' => date('d M Y', strtotime($r['created_at'])),
+                    'status' => $r['status'],
+                    'image' => $r['photo_url'] ? $baseUrl . $r['photo_url'] : 'https://via.placeholder.com/300',
+                ];
+            }, $allReports);
+
+            // Urutkan berdasarkan tanggal terbaru
+            usort($recentReports, fn($a, $b) => strtotime($b['date']) <=> strtotime($a['date']));
+
+            // Ambil 6 laporan terbaru
+            $recentReports = array_slice($recentReports, 0, 6);
+
+            return view('dashboard', compact('stats', 'recentReports', 'token'));
+        } catch (\Exception $e) {
+            return view('dashboard', [
+                'stats' => ['total_lost' => 0, 'total_found' => 0, 'resolved' => 0],
+                'recentReports' => [],
+                'token' => $token
+            ])->with('error', 'Gagal load data dashboard: ' . $e->getMessage());
+        }
+    }
+}

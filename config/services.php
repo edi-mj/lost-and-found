@@ -38,5 +38,7 @@ return [
     'backend_api' => [
         'user_management' => env('API_USERS_MANAGEMENT'),
         'verification_management'    => env('API_VERIFICATION'),
-    ]
+        'reports' => env('API_REPORTS'),
+    ],
+
 ];
