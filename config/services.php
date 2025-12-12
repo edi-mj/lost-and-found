@@ -37,8 +37,12 @@ return [
 
     'backend_api' => [
         'user_management' => env('API_USERS_MANAGEMENT'),
+<<<<<<< HEAD
         'verification_management'    => env('API_VERIFICATION'),
         'reports' => env('API_REPORTS'),
+=======
+        'search_management' => env('API_SEARCH_MANAGEMENT'),
+>>>>>>> 3189a42a3fd70e2d2605da1f00aaf868f366f88e
     ],
 
 ];
