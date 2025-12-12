@@ -38,5 +38,9 @@ return [
     'backend_api' => [
         'user_management' => env('API_USERS_MANAGEMENT'),
     ],
+    
+    'verification_api' => [
+        'base_url' => env('VERIFICATION_API_URL', 'http://localhost:9000/api/verifications'),
+    ],
 
 ];
