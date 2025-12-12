@@ -11,7 +11,7 @@ class NotificationService
 
     public function __construct()
     {
-        $this->baseUrl = env('API_NOTIFICATION');
+        $this->baseUrl = config('services.backend_api.notification');
     }
 
     public function getNotifications($userId)
