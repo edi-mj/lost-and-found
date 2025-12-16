@@ -5,9 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SearchController;
-
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -29,7 +29,6 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::post('/verifications', [VerificationController::class, 'create'])->name('verifications.create');
 Route::get('/verifications/{reportId}', [VerificationController::class, 'status'])->name('verifications.status');
 Route::put('/verifications/{id}', [VerificationController::class, 'update'])->middleware('admin')->name('verifications.update');
-Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 Route::prefix('reports')->group(function () {
     // Lihat semua lost
@@ -47,3 +46,7 @@ Route::prefix('reports')->group(function () {
     // Detail laporan
     Route::get('/{id}', [ReportController::class, 'show'])->name('reports.show');
 });
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/recent', [NotificationController::class, 'getRecent'])->name('notifications.recent');
+Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');

@@ -40,6 +40,7 @@ return [
         'verification_management'    => env('API_VERIFICATION'),
         'reports' => env('API_REPORTS'),
         'search_management' => env('API_SEARCH_MANAGEMENT'),
+        'notification' => env('API_NOTIFICATION'),
     ],
 
 ];
