@@ -1,59 +1,228 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Lost & Found Application
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo">
 </p>
 
-## About Laravel
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+  <img src="https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind">
+  <img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+  <img src="https://img.shields.io/badge/Redis-3.3-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
+  <img src="https://img.shields.io/badge/JWT-6.11-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT">
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Deskripsi Proyek
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Aplikasi web untuk membantu pengguna melaporkan dan mencari barang hilang atau ditemukan. Sistem ini dibangun menggunakan Laravel sebagai frontend dan terintegrasi dengan backend microservices melalui REST API. Fitur utama meliputi pelaporan barang hilang/ditemukan, pencarian barang, verifikasi kepemilikan, dan notifikasi real-time.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Note
 
-## Learning Laravel
+Proyek ini dibangun untuk keperluan tugas akhir mata kuliah Sistem Teristribusi. Hingga saat ini project ini hanya memenuhi fungsionalitas dasar dan belum selesai sepenuhnya.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Fitur Utama
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Untuk Pengguna
 
-## Laravel Sponsors
+-   **Autentikasi & Otorisasi** - Registrasi dan login dengan JWT token
+-   **Laporan Kehilangan** - Laporkan barang yang hilang dengan deskripsi dan foto
+-   **Laporan Penemuan** - Laporkan barang yang ditemukan untuk membantu orang lain
+-   **Pencarian Cerdas** - Cari barang berdasarkan kata kunci, lokasi, atau kategori
+-   **Verifikasi Kepemilikan** - Sistem verifikasi untuk klaim barang
+-   **Notifikasi Real-time** - Dapatkan notifikasi saat ada match atau update status
+-   **Dashboard Pribadi** - Kelola semua laporan Anda dalam satu tempat
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Untuk Admin
 
-### Premium Partners
+-   **Dashboard Admin** - Panel kontrol untuk monitoring sistem
+-   **Manajemen Verifikasi** - Review dan approve klaim kepemilikan
+-   **Moderasi Konten** - Kelola laporan yang masuk
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Tech Stack
 
-## Contributing
+### Backend & Framework
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   **Laravel 12** - PHP framework untuk routing, middleware, dan view rendering
+-   **PHP 8.2+** - Server-side scripting language
+-   **Laravel Sanctum** - API token authentication
+-   **Firebase JWT** - JSON Web Token untuk autentikasi microservices
 
-## Code of Conduct
+### Frontend & UI
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   **Blade Templates** - Laravel templating engine
+-   **TailwindCSS 3** - Utility-first CSS framework
+-   **Tailwind Forms** - Form styling plugin
+-   **Vite 7** - Modern frontend build tool
+-   **Axios** - HTTP client untuk API calls
 
-## Security Vulnerabilities
+### Database & Cache
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **MySQL/PostgreSQL** - Relational database (sesuai konfigurasi)
+-   **Redis (Predis)** - In-memory data store untuk caching dan queues
 
-## License
+## Arsitektur Microservices
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Aplikasi ini menggunakan arsitektur microservices dengan Laravel sebagai API Gateway dan Frontend. Backend services terpisah menangani:
+
+-   **User Management Service** - Autentikasi dan manajemen pengguna
+-   **Reports Service** - Pengelolaan laporan kehilangan dan penemuan
+-   **Search Service** - Pencarian dan filtering barang
+-   **Verification Service** - Verifikasi kepemilikan barang
+-   **Notification Service** - Pengiriman notifikasi
+
+Komunikasi antar service menggunakan REST API dengan JWT authentication.
+
+## Instalasi & Setup
+
+### Prasyarat
+
+-   PHP 8.2 atau lebih tinggi
+-   Composer
+-   Node.js & NPM
+-   MySQL atau PostgreSQL
+-   Redis (optional, untuk caching)
+
+### Quick Start
+
+1. **Clone repository**
+
+```bash
+git clone https://github.com/edi-mj/lost-and-found.git
+cd lost-and-found
+```
+
+2. **Install dependencies**
+
+```bash
+composer install
+npm install
+```
+
+3. **Setup environment**
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Konfigurasi database & services di `.env`**
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lost_and_found
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Microservices API Endpoints
+API_USERS_MANAGEMENT=http://localhost:3001/api
+API_REPORTS=http://localhost:3002/api
+API_SEARCH_MANAGEMENT=http://localhost:3003/api
+API_VERIFICATION=http://localhost:3004/api
+API_NOTIFICATION=http://localhost:3005/api
+
+# JWT Secret (harus sama dengan Express backend)
+EXPRESS_JWT_SECRET=your-secret-key
+```
+
+5. **Jalankan migrasi database**
+
+```bash
+php artisan migrate
+```
+
+6. **Build assets**
+
+```bash
+npm run build
+```
+
+7. **Jalankan development server**
+
+```bash
+# Otomatis menjalankan Laravel server, queue worker, logs, dan Vite
+composer dev
+```
+
+Atau jalankan secara manual:
+
+```bash
+# Terminal 1
+php artisan serve
+
+# Terminal 2
+npm run dev
+
+# Terminal 3 (optional - untuk queue)
+php artisan queue:listen
+```
+
+## Struktur Direktori
+
+```
+app/
+├── Http/
+│   ├── Controllers/      # Request handlers
+│   └── Middleware/       # JWT verification, admin check
+├── Models/              # Eloquent models
+└── Services/            # Business logic (NotificationService)
+
+database/
+├── migrations/          # Database schema
+└── seeders/            # Data seeding
+
+resources/
+├── views/              # Blade templates
+│   ├── auth/          # Login & register
+│   ├── reports/       # Report pages
+│   ├── search/        # Search interface
+│   └── admin/         # Admin dashboard
+└── css/ & js/         # Frontend assets
+
+routes/
+├── web.php            # Web routes
+└── api.php            # API routes
+
+config/
+└── services.php       # Microservices endpoints configuration
+```
+
+## Testing
+
+```bash
+# Jalankan semua test
+composer test
+
+# Atau
+php artisan test
+
+# Test dengan coverage
+php artisan test --coverage
+```
+
+## Code Style
+
+Proyek ini menggunakan Laravel Pint untuk menjaga konsistensi code style:
+
+```bash
+./vendor/bin/pint
+```
+
+## API Integration
+
+Aplikasi ini berkomunikasi dengan microservices backend menggunakan HTTP client. Contoh endpoint yang digunakan:
+
+-   `POST /api/auth/login` - User authentication
+-   `GET /api/reports` - Fetch reports
+-   `POST /api/reports` - Create new report
+-   `GET /api/search` - Search items
+-   `POST /api/verifications` - Submit verification request
+-   `GET /api/notifications` - Get user notifications
+
+JWT token dari Express backend diverifikasi menggunakan middleware `VerifyJwtFromExpress`.
+
+## Kontribusi
+
+Proyek ini dibangun untuk keperluan tugas akhir mata kuliah Sistem Terdistribusi. Kontribusi selalu terbuka! Silakan fork repository ini dan submit pull request untuk perbaikan atau fitur baru.
